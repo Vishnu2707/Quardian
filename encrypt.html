@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quardian-Safe API — Encrypt Demo</title>
+  <title>Quardian-Safe API — Encrypt | Decrypt | Verify</title>
 
-  <!-- Inter font -->
+  <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
+  <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,7 +24,7 @@
               panel: '#0f1726',
               neon: '#00e5ff',
               accent: '#6ee7ff',
-              pulse: '#20f3b4',
+              pulse: '#20f3b4'
             },
           },
           boxShadow: {
@@ -70,44 +70,71 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="py-20 md:py-28 text-center">
+  <!-- Hero -->
+  <section class="py-20 text-center">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-extrabold">Quardian-Safe API Demo</h1>
       <p class="mt-4 text-slate-400 text-lg">
-        Experiment with <span class="text-quardian-accent font-semibold">Post-Quantum Encryption</span> using 
-        <strong>Kyber</strong>, <strong>Dilithium</strong>, and <strong>Falcon</strong>.  
-        Enter text below, choose a scheme, and see your ciphertext securely generated.
+        Try <span class="text-quardian-accent font-semibold">Encrypt</span>, <span class="text-quardian-accent font-semibold">Decrypt</span>,
+        and <span class="text-quardian-accent font-semibold">Verify</span> using Quardian’s Post-Quantum-ready API endpoints.
       </p>
     </div>
   </section>
 
-  <!-- Encryption Form -->
-  <section class="max-w-2xl mx-auto px-4 mb-28">
+  <!-- Tabs -->
+  <section class="max-w-3xl mx-auto px-4 mb-28">
     <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-8 shadow-glow">
-      <form id="encryptForm" class="space-y-6">
+      <div class="flex justify-center mb-6">
+        <button id="tabEncrypt" class="tab-btn bg-quardian-accent/20 px-4 py-2 rounded-l-lg font-semibold">Encrypt</button>
+        <button id="tabDecrypt" class="tab-btn bg-quardian-accent/10 px-4 py-2 font-semibold">Decrypt</button>
+        <button id="tabVerify" class="tab-btn bg-quardian-accent/10 px-4 py-2 rounded-r-lg font-semibold">Verify</button>
+      </div>
+
+      <!-- Encrypt Form -->
+      <form id="encryptForm" class="tab-content space-y-6">
         <div>
-          <label class="block text-sm mb-2 text-slate-400">Select Encryption Scheme</label>
-          <select id="scheme" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:outline-none focus:ring-2 focus:ring-quardian-accent">
+          <label class="block text-sm mb-2 text-slate-400">Select Algorithm</label>
+          <select id="scheme" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:ring-2 focus:ring-quardian-accent">
             <option value="Kyber">Kyber</option>
             <option value="Dilithium">Dilithium</option>
             <option value="Falcon">Falcon</option>
           </select>
         </div>
-
         <div>
           <label class="block text-sm mb-2 text-slate-400">Enter Plaintext</label>
-          <textarea id="plaintext" rows="4" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:outline-none focus:ring-2 focus:ring-quardian-accent" placeholder="Enter your data to encrypt..."></textarea>
+          <textarea id="plaintext" rows="4" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:ring-2 focus:ring-quardian-accent" placeholder="Enter data to encrypt..."></textarea>
         </div>
-
-        <button type="submit" class="relative ring-anim inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
+        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
           Encrypt Data
         </button>
       </form>
 
+      <!-- Decrypt Form -->
+      <form id="decryptForm" class="tab-content hidden space-y-4">
+        <textarea id="ciphertext" placeholder="Ciphertext" rows="3" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <input id="key" placeholder="Key (Base64)" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3" />
+        <div class="grid sm:grid-cols-2 gap-3">
+          <input id="iv" placeholder="IV (Base64)" class="rounded-lg bg-quardian-bg border border-white/10 p-3" />
+          <input id="tag" placeholder="Tag (Base64)" class="rounded-lg bg-quardian-bg border border-white/10 p-3" />
+        </div>
+        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
+          Decrypt Data
+        </button>
+      </form>
+
+      <!-- Verify Form -->
+      <form id="verifyForm" class="tab-content hidden space-y-4">
+        <textarea id="verifyMessage" placeholder="Message to verify" rows="3" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <textarea id="verifyPublicKey" placeholder="Public Key (Base64)" rows="2" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <textarea id="verifySignature" placeholder="Signature (Base64)" rows="2" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
+          Verify Signature
+        </button>
+      </form>
+
       <div id="resultBox" class="mt-8 hidden">
-        <h3 class="text-lg font-semibold mb-2 text-quardian-accent">Ciphertext Output</h3>
-        <pre id="cipherOutput" class="text-sm text-slate-300 bg-quardian-bg border border-white/10 p-4 rounded-lg overflow-x-auto"></pre>
+        <h3 class="text-lg font-semibold mb-2 text-quardian-accent">Result</h3>
+        <pre id="resultOutput" class="text-sm text-slate-300 bg-quardian-bg border border-white/10 p-4 rounded-lg overflow-x-auto"></pre>
       </div>
     </div>
   </section>
@@ -118,39 +145,91 @@
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    const form = document.getElementById('encryptForm');
-    const resultBox = document.getElementById('resultBox');
-    const cipherOutput = document.getElementById('cipherOutput');
+    // Tabs
+    const tabs = {
+      Encrypt: document.getElementById("encryptForm"),
+      Decrypt: document.getElementById("decryptForm"),
+      Verify: document.getElementById("verifyForm"),
+    };
+    const buttons = {
+      Encrypt: document.getElementById("tabEncrypt"),
+      Decrypt: document.getElementById("tabDecrypt"),
+      Verify: document.getElementById("tabVerify"),
+    };
+    Object.keys(buttons).forEach(k => {
+      buttons[k].addEventListener("click", () => {
+        Object.values(tabs).forEach(t => t.classList.add("hidden"));
+        Object.values(buttons).forEach(b => b.classList.remove("bg-quardian-accent/20"));
+        tabs[k].classList.remove("hidden");
+        buttons[k].classList.add("bg-quardian-accent/20");
+        document.getElementById("resultBox").classList.add("hidden");
+      });
+    });
 
-    form.addEventListener('submit', async (e) => {
+    const resultBox = document.getElementById("resultBox");
+    const resultOutput = document.getElementById("resultOutput");
+
+    async function postJSON(url, body) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }
+
+    // Encrypt
+    document.getElementById("encryptForm").addEventListener("submit", async e => {
       e.preventDefault();
-      const scheme = document.getElementById('scheme').value;
-      const plaintext = document.getElementById('plaintext').value.trim();
-
-      if (!plaintext) {
-        alert("Please enter text to encrypt.");
-        return;
-      }
-
-      cipherOutput.textContent = "Encrypting...";
-      resultBox.classList.remove('hidden');
-
+      resultOutput.textContent = "Encrypting...";
+      resultBox.classList.remove("hidden");
       try {
-        const res = await fetch('https://quardian-backend.onrender.com/api/encrypt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: plaintext, algorithm: scheme })
-        });
-
-        if (!res.ok) throw new Error("Backend returned an error.");
-        const data = await res.json();
-
-        cipherOutput.textContent = JSON.stringify(data, null, 2);
+        const scheme = document.getElementById("scheme").value;
+        const text = document.getElementById("plaintext").value.trim();
+        const data = await postJSON("https://quardian-backend.onrender.com/api/encrypt", { text, algorithm: scheme });
+        resultOutput.textContent = JSON.stringify(data, null, 2);
       } catch (err) {
-        cipherOutput.textContent = "Backend not reachable. Showing demo output.\n\n" +
-                                   JSON.stringify({ scheme, ciphertext: btoa(plaintext) }, null, 2);
+        resultOutput.textContent = "Error: " + err.message;
+      }
+    });
+
+    // Decrypt
+    document.getElementById("decryptForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      resultOutput.textContent = "Decrypting...";
+      resultBox.classList.remove("hidden");
+      try {
+        const body = {
+          ciphertext: document.getElementById("ciphertext").value.trim(),
+          key: document.getElementById("key").value.trim(),
+          iv: document.getElementById("iv").value.trim(),
+          tag: document.getElementById("tag").value.trim(),
+        };
+        const data = await postJSON("https://quardian-backend.onrender.com/api/decrypt", body);
+        resultOutput.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        resultOutput.textContent = "Error: " + err.message;
+      }
+    });
+
+    // Verify
+    document.getElementById("verifyForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      resultOutput.textContent = "Verifying...";
+      resultBox.classList.remove("hidden");
+      try {
+        const body = {
+          message: document.getElementById("verifyMessage").value.trim(),
+          publicKey: document.getElementById("verifyPublicKey").value.trim(),
+          signature: document.getElementById("verifySignature").value.trim(),
+        };
+        const data = await postJSON("https://quardian-backend.onrender.com/api/verify", body);
+        resultOutput.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        resultOutput.textContent = "Error: " + err.message;
       }
     });
   </script>
