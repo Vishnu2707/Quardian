@@ -151,5 +151,43 @@
       }
     });
   </script>
+  <script>
+document.querySelector("form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const text = document.getElementById("plaintext").value.trim();
+  const algorithm = document.getElementById("algorithm").value;
+
+  if (!text) {
+    alert("Please enter some text to encrypt!");
+    return;
+  }
+
+  const resultBox = document.getElementById("result");
+  resultBox.textContent = "Encrypting...";
+
+  try {
+    const res = await fetch("http://localhost:8080/api/encrypt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, algorithm })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.error || "Encryption failed");
+
+    resultBox.innerHTML = `
+      <p><b>Algorithm:</b> ${data.algorithm}</p>
+      <p><b>IV:</b> ${data.iv}</p>
+      <p><b>Tag:</b> ${data.tag}</p>
+      <p><b>Ciphertext:</b> ${data.ciphertext}</p>
+      <p><b>Key (one-time):</b> ${data.key}</p>
+    `;
+  } catch (err) {
+    resultBox.textContent = "❌ " + err.message;
+  }
+});
+</script>
 </body>
 </html>
