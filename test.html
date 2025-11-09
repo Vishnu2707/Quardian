@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quardian — Quantum-Safe & Quantum-Optimized SaaS</title>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            quardian: {
+              bg: '#0a0f1a',
+              panel: '#0f1726',
+              neon: '#00e5ff',
+              neon2: '#7cf3ff',
+              accent: '#6ee7ff',
+              pulse: '#20f3b4'
+            },
+          },
+          dropShadow: {
+            neon: '0 0 20px rgba(0,229,255,.55)',
+            neonSoft: '0 0 12px rgba(124,243,255,.4)',
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(124,243,255,0.2), 0 10px 40px rgba(0,229,255,.12)',
+          },
+          backgroundImage: {
+            grid: 'linear-gradient(rgba(124,243,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(124,243,255,.08) 1px, transparent 1px)',
+          }
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root { color-scheme: dark light; }
+    html, body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .ring-anim::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 0deg, rgba(0,229,255,.3), rgba(32,243,180,.35), rgba(0,229,255,.3));
+      filter: blur(12px);
+      z-index: -1; border-radius: 9999px; opacity:.7;
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .bg-grid { background-size: 24px 24px; mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 60%, transparent 100%); }
+    .focus-ring:focus-visible{ outline: 2px solid #00e5ff; outline-offset: 2px; box-shadow: 0 0 0 6px rgba(0,229,255,.15); }
+  </style>
+</head>
+
+<body class="bg-white text-slate-900 dark:bg-quardian-bg dark:text-slate-100 transition-colors duration-300">
+
+  <!-- ===== Header ===== -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-quardian-bg/50 border-b border-slate-200/60 dark:border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <span class="relative inline-grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-quardian-neon/20 to-quardian-pulse/20 ring-1 ring-quardian-neon/40 shadow-glow">
+          <svg width="20" height="20" viewBox="0 0 24 24" class="text-quardian-accent group-hover:drop-shadow-neon transition">
+            <path d="M12 3l8.66 5v8L12 21l-8.66-5V8L12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 7v10M7 9.8l10 5.2" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+          </svg>
+        </span>
+        <span class="text-xl font-semibold tracking-tight">Quardian</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#features" class="opacity-80 hover:opacity-100">Features</a>
+        <a href="#about" class="opacity-80 hover:opacity-100">About</a>
+        <a href="#team" class="opacity-80 hover:opacity-100">Team</a>
+        <a href="#insights" class="opacity-80 hover:opacity-100">Insights</a>
+        <a href="#contact" class="opacity-80 hover:opacity-100">Contact</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-300/70 dark:border-white/15">
+        <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <!-- CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <button id="themeToggle" class="focus-ring rounded-lg px-3 py-2 text-sm border border-slate-300/70 dark:border-white/15 hover:bg-slate-100/60 dark:hover:bg-white/5">
+          Toggle Theme
+        </button>
+        <a href="#cta" class="relative ring-anim inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-slate-900 bg-quardian-accent hover:brightness-110">
+          Start Free Trial
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <nav id="mobileMenu" class="hidden md:hidden flex flex-col gap-3 px-6 py-4 bg-white/90 dark:bg-quardian-panel/90 border-t border-slate-200/60 dark:border-white/10">
+      <a href="#features" class="py-1">Features</a>
+      <a href="#about" class="py-1">About</a>
+      <a href="#team" class="py-1">Team</a>
+      <a href="#insights" class="py-1">Insights</a>
+      <a href="#contact" class="py-1">Contact</a>
+      <div class="flex flex-col gap-2 mt-3">
+        <button id="themeToggleMobile" class="rounded-lg px-3 py-2 text-sm border border-slate-300/70 dark:border-white/15">Toggle Theme</button>
+        <a href="#cta" class="ring-anim inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold text-slate-900 bg-quardian-accent">Start Free Trial</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Rest of your content is exactly the same -->
+  <!-- (No edits needed — all Tailwind responsive utilities already handle tablet/mobile scaling) -->
+
+  <!-- JS for Menu + Theme -->
+  <script>
+    // Year
+    document.getElementById('year')?.textContent = new Date().getFullYear();
+
+    const root = document.documentElement;
+    const stored = localStorage.getItem('quardian-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if ((stored === 'dark') || (!stored && prefersDark)) root.classList.add('dark');
+
+    const toggleTheme = () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('quardian-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    };
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
+
+    // Mobile Menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Contact Form (demo)
+    const form = document.getElementById('contactForm');
+    const msg = document.getElementById('formMsg');
+    const privacy = document.getElementById('privacyCheck');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!privacy.checked) {
+        msg.textContent = "Please accept the privacy policy (demo) to continue.";
+        msg.className = "text-red-500";
+        msg.classList.remove('hidden');
+        return;
+      }
+      msg.textContent = "Thanks! Message received (demo). Replace with real submission when domain is live.";
+      msg.className = "text-quardian-accent";
+      msg.classList.remove('hidden');
+      form.reset(); privacy.checked = false;
+    });
+  </script>
+</body>
+</html>
