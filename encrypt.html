@@ -66,7 +66,7 @@
         </span>
         <span class="text-xl font-semibold tracking-tight">Quardian</span>
       </a>
-      <a href="index.html" class="text-sm text-quardian-accent hover:underline">← Back to Home</a>
+      <a href="index.html" class="text-sm text-quardian-accent hover:underline">Back to Home</a>
     </div>
   </header>
 
@@ -127,67 +127,32 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const scheme = document.getElementById('scheme').value;
-      const data = document.getElementById('plaintext').value.trim();
+      const plaintext = document.getElementById('plaintext').value.trim();
 
-      if (!data) {
+      if (!plaintext) {
         alert("Please enter text to encrypt.");
         return;
       }
 
+      cipherOutput.textContent = "Encrypting...";
+      resultBox.classList.remove('hidden');
+
       try {
-        const res = await fetch('https://your-render-backend-url.onrender.com/api/encrypt', {
+        const res = await fetch('https://quardian-backend.onrender.com/api/encrypt', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scheme, data })
+          body: JSON.stringify({ text: plaintext, algorithm: scheme })
         });
 
-        const result = await res.json();
-        cipherOutput.textContent = JSON.stringify(result.result, null, 2);
-        resultBox.classList.remove('hidden');
+        if (!res.ok) throw new Error("Backend returned an error.");
+        const data = await res.json();
+
+        cipherOutput.textContent = JSON.stringify(data, null, 2);
       } catch (err) {
-        cipherOutput.textContent = '⚠️ Backend not reachable. Showing demo output.\n\n' + 
-                                   JSON.stringify({ scheme, ciphertext: btoa(data) }, null, 2);
-        resultBox.classList.remove('hidden');
+        cipherOutput.textContent = "Backend not reachable. Showing demo output.\n\n" +
+                                   JSON.stringify({ scheme, ciphertext: btoa(plaintext) }, null, 2);
       }
     });
   </script>
-  <script>
-document.querySelector("form")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const text = document.getElementById("plaintext").value.trim();
-  const algorithm = document.getElementById("algorithm").value;
-
-  if (!text) {
-    alert("Please enter some text to encrypt!");
-    return;
-  }
-
-  const resultBox = document.getElementById("result");
-  resultBox.textContent = "Encrypting...";
-
-  try {
-    const res = await fetch("http://localhost:8080/api/encrypt", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, algorithm })
-    });
-
-    const data = await res.json();
-
-    if (!data.ok) throw new Error(data.error || "Encryption failed");
-
-    resultBox.innerHTML = `
-      <p><b>Algorithm:</b> ${data.algorithm}</p>
-      <p><b>IV:</b> ${data.iv}</p>
-      <p><b>Tag:</b> ${data.tag}</p>
-      <p><b>Ciphertext:</b> ${data.ciphertext}</p>
-      <p><b>Key (one-time):</b> ${data.key}</p>
-    `;
-  } catch (err) {
-    resultBox.textContent = "❌ " + err.message;
-  }
-});
-</script>
 </body>
 </html>
