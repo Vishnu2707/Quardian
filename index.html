@@ -13,7 +13,6 @@
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Tailwind config for on-the-fly neon colors
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -21,7 +20,7 @@
           fontFamily: { inter: ['Inter', 'ui-sans-serif', 'system-ui'] },
           colors: {
             quardian: {
-              bg: '#0a0f1a', // deep blue-black
+              bg: '#0a0f1a',
               panel: '#0f1726',
               neon: '#00e5ff',
               neon2: '#7cf3ff',
@@ -47,7 +46,6 @@
   <style>
     :root { color-scheme: dark light; }
     html, body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-    /* subtle animated gradient ring behind CTA */
     .ring-anim::before{
       content:"";
       position:absolute; inset:-2px;
@@ -57,28 +55,17 @@
       animation: spin 6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* grid background helper */
-    .bg-grid {
-      background-size: 24px 24px;
-      mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 60%, transparent 100%);
-    }
-
-    /* focus rings */
-    .focus-ring:focus-visible{
-      outline: 2px solid #00e5ff; outline-offset: 2px;
-      box-shadow: 0 0 0 6px rgba(0,229,255,.15);
-    }
+    .bg-grid { background-size: 24px 24px; mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 60%, transparent 100%); }
+    .focus-ring:focus-visible{ outline: 2px solid #00e5ff; outline-offset: 2px; box-shadow: 0 0 0 6px rgba(0,229,255,.15); }
   </style>
 </head>
 
 <body class="bg-white text-slate-900 dark:bg-quardian-bg dark:text-slate-100 transition-colors duration-300">
-  <!-- ===== Top Navigation / Header ===== -->
+  <!-- ===== Header ===== -->
   <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-quardian-bg/50 border-b border-slate-200/60 dark:border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3 group">
         <span class="relative inline-grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-quardian-neon/20 to-quardian-pulse/20 ring-1 ring-quardian-neon/40 shadow-glow">
-          <!-- Inline SVG logo -->
           <svg width="20" height="20" viewBox="0 0 24 24" class="text-quardian-accent group-hover:drop-shadow-neon transition">
             <path d="M12 3l8.66 5v8L12 21l-8.66-5V8L12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/>
             <path d="M12 7v10M7 9.8l10 5.2" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
@@ -89,12 +76,13 @@
 
       <nav class="hidden md:flex items-center gap-6 text-sm">
         <a href="#features" class="opacity-80 hover:opacity-100">Features</a>
-        <a href="#architecture" class="opacity-80 hover:opacity-100">Architecture</a>
-        <a href="#stack" class="opacity-80 hover:opacity-100">Tech Stack</a>
+        <a href="#about" class="opacity-80 hover:opacity-100">About</a>
+        <a href="#team" class="opacity-80 hover:opacity-100">Team</a>
+        <a href="#insights" class="opacity-80 hover:opacity-100">Insights</a>
+        <a href="#contact" class="opacity-80 hover:opacity-100">Contact</a>
       </nav>
 
       <div class="flex items-center gap-3">
-        <!-- Dark mode toggle -->
         <button id="themeToggle" class="focus-ring rounded-lg px-3 py-2 text-sm border border-slate-300/70 dark:border-white/15 hover:bg-slate-100/60 dark:hover:bg-white/5">
           Toggle Theme
         </button>
@@ -105,9 +93,8 @@
     </div>
   </header>
 
-  <!-- ===== Hero Section ===== -->
+  <!-- ===== Hero ===== -->
   <section id="hero" class="relative overflow-hidden">
-    <!-- neon grid background -->
     <div class="absolute inset-0 bg-grid dark:bg-grid"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-quardian-panel/50 via-transparent to-transparent pointer-events-none"></div>
 
@@ -126,12 +113,8 @@
             <a href="#features" class="relative ring-anim inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-semibold text-slate-900 bg-quardian-accent">
               Start Free Trial
             </a>
-            <a href="#architecture" class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-base font-medium border border-slate-300/70 dark:border-white/15 hover:bg-slate-100/60 dark:hover:bg-white/5">
-              View Architecture
-            </a>
           </div>
 
-          <!-- quick trust badges -->
           <div class="mt-8 flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400">
             <span class="px-2.5 py-1 rounded-md border border-white/10 bg-white/5">PQC: Kyber · Dilithium · Falcon</span>
             <span class="px-2.5 py-1 rounded-md border border-white/10 bg-white/5">QAOA · VQC</span>
@@ -139,7 +122,6 @@
           </div>
         </div>
 
-        <!-- right visual: simple "quantum nodes" svg -->
         <div class="relative mx-auto w-full max-w-xl lg:max-w-2xl">
           <div class="rounded-3xl border border-white/10 bg-gradient-to-b from-quardian-panel/70 to-transparent p-6 shadow-glow">
             <svg viewBox="0 0 600 340" class="w-full h-auto">
@@ -150,12 +132,10 @@
                 </radialGradient>
               </defs>
               <rect width="100%" height="100%" fill="url(#g)" opacity=".15"/>
-              <!-- nodes -->
               <g fill="none" stroke="#7cf3ff" stroke-opacity=".9">
                 <circle cx="90" cy="80" r="18"/><circle cx="290" cy="60" r="18"/><circle cx="510" cy="90" r="18"/>
                 <circle cx="140" cy="220" r="18"/><circle cx="330" cy="180" r="18"/><circle cx="480" cy="250" r="18"/>
               </g>
-              <!-- links -->
               <g stroke="#20f3b4" stroke-opacity=".65">
                 <line x1="90" y1="80" x2="290" y2="60"/>
                 <line x1="290" y1="60" x2="510" y2="90"/>
@@ -172,18 +152,17 @@
     </div>
   </section>
 
-  <!-- ===== Core Features Section ===== -->
+  <!-- ===== Core Features ===== -->
   <section id="features" class="py-20 md:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Core Features</h2>
       <p class="text-slate-400 max-w-3xl mb-10">Everything you need to secure, optimize, and observe mission-critical AI, IoT, and healthcare workloads.</p>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card 1 Security -->
+        <!-- Security -->
         <article class="group rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 hover:shadow-glow transition">
           <div class="flex items-center gap-3">
             <span class="inline-flex w-12 h-12 rounded-xl bg-quardian-accent/15 text-quardian-accent items-center justify-center">
-              <!-- shield svg -->
               <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/></svg>
             </span>
             <h3 class="text-xl font-semibold">Quardian-Safe API</h3>
@@ -191,11 +170,10 @@
           <p class="mt-3 text-slate-400">Post-Quantum encryption <strong>(Kyber, Dilithium, Falcon)</strong> for securing data & API traffic.</p>
         </article>
 
-        <!-- Card 2 Optimization -->
+        <!-- Optimization -->
         <article class="group rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 hover:shadow-glow transition">
           <div class="flex items-center gap-3">
             <span class="inline-flex w-12 h-12 rounded-xl bg-quardian-pulse/15 text-quardian-pulse items-center justify-center">
-              <!-- atom svg -->
               <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4a8 8 0 100 16 8 8 0 000-16zm0 2a6 6 0 110 12A6 6 0 0112 6zm-1 6a1 1 0 102 0 1 1 0 00-2 0z"/><path fill="currentColor" d="M4 12h16M12 4v16"/></svg>
             </span>
             <h3 class="text-xl font-semibold">Quardian-Optima Engine</h3>
@@ -203,11 +181,10 @@
           <p class="mt-3 text-slate-400">Quantum-inspired optimization <strong>(QAOA/VQC)</strong> APIs for scheduling, resource planning, and AI inference.</p>
         </article>
 
-        <!-- Card 3 Visibility -->
+        <!-- Dashboard -->
         <article class="group rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 hover:shadow-glow transition">
           <div class="flex items-center gap-3">
             <span class="inline-flex w-12 h-12 rounded-xl bg-quardian-neon2/15 text-quardian-neon2 items-center justify-center">
-              <!-- chart svg -->
               <svg width="24" height="24" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" fill="none" d="M4 18h16M6 16l4-6 3 3 5-7"/></svg>
             </span>
             <h3 class="text-xl font-semibold">Dashboard</h3>
@@ -215,11 +192,10 @@
           <p class="mt-3 text-slate-400">Displays encryption latency, optimization gains, and detailed analytics.</p>
         </article>
 
-        <!-- Card 4 Integration -->
+        <!-- Developer Portal -->
         <article class="group rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 hover:shadow-glow transition">
           <div class="flex items-center gap-3">
             <span class="inline-flex w-12 h-12 rounded-xl bg-quardian-accent/15 text-quardian-accent items-center justify-center">
-              <!-- code brackets svg -->
               <svg width="24" height="24" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" fill="none" d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
             </span>
             <h3 class="text-xl font-semibold">Developer Portal</h3>
@@ -227,11 +203,10 @@
           <p class="mt-3 text-slate-400">REST API documentation, sample SDKs, and key management.</p>
         </article>
 
-        <!-- Card 5 Business -->
+        <!-- Billing -->
         <article class="group rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 hover:shadow-glow transition sm:col-span-2 lg:col-span-1">
           <div class="flex items-center gap-3">
             <span class="inline-flex w-12 h-12 rounded-xl bg-quardian-pulse/15 text-quardian-pulse items-center justify-center">
-              <!-- credit card svg -->
               <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg>
             </span>
             <h3 class="text-xl font-semibold">User Accounts + Billing</h3>
@@ -242,103 +217,258 @@
     </div>
   </section>
 
-  <!-- ===== Architecture Blueprint Section ===== -->
-  <section id="architecture" class="py-20 md:py-28 bg-slate-50/40 dark:bg-white/[.02] border-y border-slate-200/60 dark:border-white/10">
+  <!-- ===== About / Company ===== -->
+  <section id="about" class="py-20 md:py-28 bg-slate-50/40 dark:bg-white/[.02] border-y border-slate-200/60 dark:border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Architecture Blueprint</h2>
-      <p class="text-slate-400 max-w-3xl mb-10">MERN + FastAPI hybrid with observability and containerized deploy.</p>
-
-      <!-- Flowchart style layout -->
-      <div class="grid lg:grid-cols-4 gap-6">
-        <!-- Frontend -->
-        <div class="relative rounded-2xl p-5 border border-white/10 bg-white/70 dark:bg-quardian-panel/70 shadow-glow">
-          <h3 class="text-lg font-semibold mb-2">Frontend</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Next.js/React + Tailwind</p>
-          <div class="mt-4 text-xs text-slate-400">
-            • Auth pages • Dashboard UI • Docs • Billing UI
-          </div>
-          <span class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-quardian-accent/80 shadow-glow hidden lg:inline"></span>
+      <div class="grid lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">About Quardian</h2>
+          <p class="text-slate-400 max-w-2xl">
+            Quardian designs <strong>Quantum-Safe</strong> and <strong>Quantum-Optimized</strong> infrastructures that secure and accelerate
+            AI, IoT, and distributed systems. We combine <em>post-quantum cryptography</em> (Kyber, Dilithium, Falcon) with
+            <em>quantum-inspired optimization</em> (QAOA/VQC) to make data exchanges trustworthy and computation efficient — today.
+          </p>
+          <p class="mt-4 text-slate-400 max-w-2xl">
+            Our developer-first SaaS provides secure APIs, optimization engines, observability dashboards, and a clean integration experience.
+            Built for researchers, startups, and enterprises piloting quantum-era transformation.
+          </p>
         </div>
-
-        <!-- Backend -->
-        <div class="relative rounded-2xl p-5 border border-white/10 bg-white/70 dark:bg-quardian-panel/70 shadow-glow">
-          <h3 class="text-lg font-semibold mb-2">Backend</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">FastAPI/Python + Prometheus</p>
-          <div class="mt-4 text-xs text-slate-400">
-            /pqc (Kyber/Dilithium/Falcon) <br/>
-            /quantum (QAOA/VQC) <br/>
-            /metrics (Prometheus)
-          </div>
-          <span class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-quardian-accent/80 shadow-glow hidden lg:inline"></span>
+        <div class="rounded-2xl border border-white/10 bg-white/60 dark:bg-quardian-panel/70 p-6 shadow-glow">
+          <h3 class="text-xl font-semibold">What We Deliver</h3>
+          <ul class="mt-4 space-y-2 text-sm text-slate-400">
+            <li>• PQC-secured API & microservice communications</li>
+            <li>• QAOA/VQC for scheduling, routing, and AI efficiency</li>
+            <li>• Real-time metrics: encryption latency, optimization gain</li>
+            <li>• Enterprise options: on-prem deploy, SSO, custom SLAs</li>
+          </ul>
         </div>
-
-        <!-- Database -->
-        <div class="relative rounded-2xl p-5 border border-white/10 bg-white/70 dark:bg-quardian-panel/70 shadow-glow">
-          <h3 class="text-lg font-semibold mb-2">Database</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">PostgreSQL</p>
-          <div class="mt-4 text-xs text-slate-400">
-            tables: users, plans, logs
-          </div>
-          <span class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-quardian-accent/80 shadow-glow hidden lg:inline"></span>
-        </div>
-
-        <!-- Infrastructure -->
-        <div class="rounded-2xl p-5 border border-white/10 bg-white/70 dark:bg-quardian-panel/70 shadow-glow">
-          <h3 class="text-lg font-semibold mb-2">Infrastructure</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Docker + AWS / Render / Railway</p>
-          <div class="mt-4 text-xs text-slate-400">
-            • CI/CD • Container registry • Observability (Grafana)
-          </div>
-        </div>
-      </div>
-
-      <!-- connectors (for small screens we show stacked; for lg we draw a line) -->
-      <div class="hidden lg:block mt-6">
-        <div class="h-1 w-full bg-gradient-to-r from-quardian-neon/50 via-quardian-pulse/50 to-quardian-neon2/50 rounded-full"></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Tech Stack Section ===== -->
-  <section id="stack" class="py-20 md:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Tech Stack</h2>
-      <p class="text-slate-400 max-w-3xl mb-10">Modern, production-ready tools chosen for performance, security, and developer velocity.</p>
+  <!-- ===== Team ===== -->
+<section id="team" class="py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Team</h2>
+        <p class="text-slate-400 max-w-3xl">
+          The minds behind Quardian, uniting post-quantum cryptography, quantum machine learning, and secure SaaS infrastructure.
+        </p>
+      </div>
+    </div>
 
-      <div class="overflow-hidden rounded-2xl border border-white/10 bg-white/50 dark:bg-quardian-panel/60 shadow-glow">
-        <div class="grid md:grid-cols-2 gap-0">
-          <ul class="p-6 space-y-3 text-sm">
-            <li><span class="font-semibold text-quardian-accent">Frontend:</span> Next.js 14, Tailwind CSS</li>
-            <li><span class="font-semibold text-quardian-accent">Backend:</span> FastAPI (Python)</li>
-            <li><span class="font-semibold text-quardian-accent">Database:</span> PostgreSQL</li>
-            <li><span class="font-semibold text-quardian-accent">Quantum SDKs:</span> Qiskit, PennyLane</li>
-            <li><span class="font-semibold text-quardian-accent">Auth:</span> Auth0 or Clerk</li>
-          </ul>
-          <ul class="p-6 space-y-3 text-sm border-t md:border-t-0 md:border-l border-white/10">
-            <li><span class="font-semibold text-quardian-accent">Payments:</span> Stripe API</li>
-            <li><span class="font-semibold text-quardian-accent">Observability:</span> Prometheus + Grafana</li>
-            <li><span class="font-semibold text-quardian-accent">Packaging:</span> Docker containers</li>
-            <li><span class="font-semibold text-quardian-accent">Deploy:</span> AWS / Render / Railway</li>
-            <li><span class="font-semibold text-quardian-accent">CI/CD:</span> GitHub Actions</li>
-          </ul>
+    <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Vishnu Ajith -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] overflow-hidden shadow-glow">
+        <img src="images/vishnu.jpg" alt="Vishnu Ajith" class="w-full h-56 object-cover" />
+        <div class="p-6">
+          <h3 class="text-lg font-semibold">Vishnu Ajith</h3>
+          <span class="inline-block mt-1 text-xs px-2 py-1 rounded-md border border-white/10 bg-white/10">
+            Founder & Research Head
+          </span>
+          <p class="mt-3 text-sm text-slate-400">
+            Leads quantum-safe infrastructure and optimization research. Developed Quardian’s PQC and ML modules.
+          </p>
+          <p class="mt-3 text-xs text-slate-400">
+            Focus: PQC algorithms, QAOA/VQC integration, secure CI/CD orchestration.
+          </p>
         </div>
+      </article>
+
+      <!-- Dhananjay K -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] overflow-hidden shadow-glow">
+        <img src="images/dhananjay.png" alt="Dhananjay K" class="w-full h-56 object-cover" />
+        <div class="p-6">
+          <h3 class="text-lg font-semibold">Dhananjay K</h3>
+          <span class="inline-block mt-1 text-xs px-2 py-1 rounded-md border border-white/10 bg-white/10">
+            Head of SaaS Development
+          </span>
+          <p class="mt-3 text-sm text-slate-400">
+            Architect of Quardian’s SaaS layer and developer tooling. Specializes in microservices, container orchestration, and integrations.
+          </p>
+          <p class="mt-3 text-xs text-slate-400">
+            Focus: product engineering, API gateways, platform scalability.
+          </p>
+        </div>
+      </article>
+
+      <!-- Akshay Joseph -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] overflow-hidden shadow-glow">
+        <img src="images/akshay.jpg" alt="Akshay Joseph" class="w-full h-56 object-cover grayscale hover:grayscale-0 transition" />
+        <div class="p-6">
+          <h3 class="text-lg font-semibold">Akshay Joseph</h3>
+          <span class="inline-block mt-1 text-xs px-2 py-1 rounded-md border border-white/10 bg-white/10">
+            Quantum ML Research Lead
+          </span>
+          <p class="mt-3 text-sm text-slate-400">
+            PhD scholar focusing on quantum machine learning and hybrid AI pipelines for real-world optimization.
+          </p>
+          <p class="mt-3 text-xs text-slate-400">
+            Focus: QML algorithm design, hybrid model benchmarking.
+          </p>
+        </div>
+      </article>
+
+      <!-- Vishnupriyan T Vijayan -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] overflow-hidden shadow-glow">
+        <img src="images/vishnupriyan.jpg" alt="Vishnupriyan T Vijayan" class="w-full h-56 object-cover" />
+        <div class="p-6">
+          <h3 class="text-lg font-semibold">Vishnupriyan T Vijayan</h3>
+          <span class="inline-block mt-1 text-xs px-2 py-1 rounded-md border border-white/10 bg-white/10">
+            Head of Data & AI Engineering
+          </span>
+          <p class="mt-3 text-sm text-slate-400">
+            Leads data analytics and AI infrastructure for quantum-enhanced systems, integrating classical and quantum datasets.
+          </p>
+          <p class="mt-3 text-xs text-slate-400">
+            Focus: data pipelines, analytics models, and AI security.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <!-- ===== Publications / Insights ===== -->
+  <section id="insights" class="py-20 md:py-28 bg-slate-50/40 dark:bg-white/[.02] border-y border-slate-200/60 dark:border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Publications & Insights</h2>
+          <p class="text-slate-400 max-w-3xl">Research notes, engineering blogs, and whitepapers from the Quardian team.</p>
+        </div>
+        <a href="#contact" class="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm border border-white/15 hover:bg-white/5">Submit a collaboration</a>
       </div>
 
-      <!-- Footer CTA -->
-      <div class="mt-12 flex flex-col sm:flex-row items-center gap-4">
-        <a href="#cta" class="relative ring-anim inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-semibold text-slate-900 bg-quardian-accent">
-          Start Free Trial
-        </a>
-        <a href="#features" class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-base font-medium border border-slate-300/70 dark:border-white/15 hover:bg-slate-100/60 dark:hover:bg-white/5">
-          Explore Features
-        </a>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 shadow-glow">
+          <div class="text-xs text-slate-400">Demo · Nov 2025</div>
+          <h3 class="mt-2 text-lg font-semibold">Post-Quantum Security in Distributed Systems</h3>
+          <p class="mt-2 text-slate-400 text-sm">Designing Kyber key exchange and Dilithium/Falcon signatures for microservice meshes and IoT fleets.</p>
+          <a href="#" class="mt-3 inline-flex text-quardian-accent text-sm">Read More →</a>
+        </article>
+        <!-- Card 2 -->
+        <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 shadow-glow">
+          <div class="text-xs text-slate-400">Demo · Nov 2025</div>
+          <h3 class="mt-2 text-lg font-semibold">Quantum Optimization for AI & IoT</h3>
+          <p class="mt-2 text-slate-400 text-sm">QAOA for scheduling and routing; VQC for anomaly detection and model efficiency.</p>
+          <a href="#" class="mt-3 inline-flex text-quardian-accent text-sm">Read More →</a>
+        </article>
+        <!-- Card 3 -->
+        <article class="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-6 shadow-glow">
+          <div class="text-xs text-slate-400">Demo · Nov 2025</div>
+          <h3 class="mt-2 text-lg font-semibold">Building Quantum-Safe DevOps Pipelines</h3>
+          <p class="mt-2 text-slate-400 text-sm">Integrating PQC into CI/CD, with Prometheus/Grafana for cryptographic latency observability.</p>
+          <a href="#" class="mt-3 inline-flex text-quardian-accent text-sm">Read More →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section id="contact" class="py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Get in Touch</h2>
+          <p class="text-slate-400 max-w-2xl">Interested in pilots, research collaborations, or early access? Send us a note. Demo values are used for now — replace later when your domain is live.</p>
+
+          <div class="mt-6 space-y-3 text-sm text-slate-400">
+            <div> London, UK | Bangalore, India</div>
+            <div>info@quardian.com</div>
+          </div>
+
+          <div class="mt-10">
+            <h3 class="text-xl font-semibold mb-3">FAQs</h3>
+            <details class="group rounded-xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-4">
+              <summary class="cursor-pointer font-medium">Do you support on-prem and VPC deployments?</summary>
+              <p class="mt-3 text-slate-400">Yes. Enterprise plans include private cloud or on-prem installation, SSO, and custom SLAs.</p>
+            </details>
+            <details class="group mt-3 rounded-xl border border-white/10 bg-white/5 dark:bg-white/[.03] p-4">
+              <summary class="cursor-pointer font-medium">Do I need real quantum hardware?</summary>
+              <p class="mt-3 text-slate-400">No. Our MVP runs on classical simulators; hardware backends are optional future integrations.</p>
+            </details>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form id="contactForm" class="rounded-2xl border border-white/10 bg-white/60 dark:bg-quardian-panel/70 p-6 shadow-glow space-y-4">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm mb-1">First Name</label>
+              <input required type="text" name="firstName" class="w-full rounded-lg border border-slate-300/70 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2 focus-ring" />
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Last Name</label>
+              <input required type="text" name="lastName" class="w-full rounded-lg border border-slate-300/70 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2 focus-ring" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Work Email</label>
+            <input required type="email" name="email" class="w-full rounded-lg border border-slate-300/70 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2 focus-ring" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Company</label>
+            <input type="text" name="company" class="w-full rounded-lg border border-slate-300/70 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2 focus-ring" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Message</label>
+            <textarea required name="message" rows="4" class="w-full rounded-lg border border-slate-300/70 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2 focus-ring"></textarea>
+          </div>
+          <div class="flex items-center justify-between gap-3">
+            <label class="text-xs flex items-center gap-2">
+              <input id="privacyCheck" type="checkbox" class="rounded border-slate-300/70 dark:border-white/15" />
+              I agree to the privacy policy (demo).
+            </label>
+            <button type="submit" class="relative ring-anim inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-slate-900 bg-quardian-accent disabled:opacity-50 disabled:cursor-not-allowed">
+              Send Message
+            </button>
+          </div>
+          <p id="formMsg" class="hidden text-sm mt-2"></p>
+        </form>
       </div>
     </div>
   </section>
 
   <!-- ===== Footer ===== -->
   <footer class="py-10 border-t border-slate-200/60 dark:border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8 text-sm">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2">
+          <span class="inline-grid place-items-center w-8 h-8 rounded-lg bg-gradient-to-br from-quardian-neon/20 to-quardian-pulse/20 ring-1 ring-quardian-neon/40 shadow-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" class="text-quardian-accent">
+              <path d="M12 3l8.66 5v8L12 21l-8.66-5V8L12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="font-semibold">Quardian</span>
+        </div>
+        <p class="mt-3 text-slate-500 dark:text-slate-400">Quantum-Safe and Quantum-Optimized cloud infrastructure for secure, efficient AI and IoT.</p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-2">Company</h4>
+        <ul class="space-y-2 text-slate-500 dark:text-slate-400">
+          <li><a href="#about" class="hover:text-slate-300">About</a></li>
+          <li><a href="#team" class="hover:text-slate-300">Team</a></li>
+          <li><a href="#insights" class="hover:text-slate-300">Insights</a></li>
+          <li><a href="#contact" class="hover:text-slate-300">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-2">Platform</h4>
+        <ul class="space-y-2 text-slate-500 dark:text-slate-400">
+          <li><a href="#features" class="hover:text-slate-300">Features</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 mt-8 text-sm text-slate-500 dark:text-slate-400">
       <p>© <span id="year"></span> Quardian. All rights reserved.</p>
       <div class="flex items-center gap-4">
         <a href="#" class="hover:text-slate-300">Privacy</a>
@@ -348,7 +478,7 @@
     </div>
   </footer>
 
-  <!-- ===== Vanilla JS: Theme + Year ===== -->
+  <!-- ===== Vanilla JS ===== -->
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -358,14 +488,28 @@
     const themeToggle = document.getElementById('themeToggle');
     const stored = localStorage.getItem('quardian-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if ((stored === 'dark') || (!stored && prefersDark)) {
-      root.classList.add('dark');
-    }
-
+    if ((stored === 'dark') || (!stored && prefersDark)) root.classList.add('dark');
     themeToggle.addEventListener('click', () => {
       root.classList.toggle('dark');
       localStorage.setItem('quardian-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Contact form (demo)
+    const form = document.getElementById('contactForm');
+    const msg = document.getElementById('formMsg');
+    const privacy = document.getElementById('privacyCheck');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!privacy.checked) {
+        msg.textContent = "Please accept the privacy policy (demo) to continue.";
+        msg.className = "text-red-500";
+        msg.classList.remove('hidden');
+        return;
+      }
+      msg.textContent = "Thanks! Message received (demo). Replace with real submission when domain is live.";
+      msg.className = "text-quardian-accent";
+      msg.classList.remove('hidden');
+      form.reset(); privacy.checked = false;
     });
   </script>
 </body>
