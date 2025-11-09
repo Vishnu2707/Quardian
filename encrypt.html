@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quardian-Safe API — Encrypt | Decrypt | Verify</title>
+  <title>Quardian-Safe API — Encrypt | Decrypt | Sign | Verify</title>
 
   <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
             },
           },
           boxShadow: {
-            glow: '0 0 0 1px rgba(124,243,255,0.2), 0 10px 40px rgba(0,229,255,.12)',
+            glow: '0 0 15px rgba(0,229,255,0.4)',
           },
         },
       },
@@ -43,13 +43,29 @@
       position: absolute;
       inset: -2px;
       background: conic-gradient(from 0deg, rgba(0,229,255,.3), rgba(32,243,180,.35), rgba(0,229,255,.3));
-      filter: blur(12px);
+      filter: blur(200px);
       z-index: -1;
       border-radius: 9999px;
       opacity: .7;
       animation: spin 6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .tab-btn {
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #6ee7ff;
+      background: rgba(110,231,255,0.08);
+    }
+    .tab-btn:hover {
+      background: rgba(110,231,255,0.15);
+      box-shadow: 0 0 10px rgba(110,231,255,0.3);
+    }
+    .tab-btn.active {
+      background: #6ee7ff;
+      color: #0a0f1a;
+      box-shadow: 0 0 20px rgba(110,231,255,0.6);
+    }
   </style>
 </head>
 
@@ -66,7 +82,9 @@
         </span>
         <span class="text-xl font-semibold tracking-tight">Quardian</span>
       </a>
-      <a href="index.html" class="text-sm text-quardian-accent hover:underline">Back to Home</a>
+      <a href="index.html" class="relative ring-anim inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-900 bg-quardian-accent hover:brightness-110">
+          Back to Home
+        </a>
     </div>
   </header>
 
@@ -75,8 +93,8 @@
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-extrabold">Quardian-Safe API Demo</h1>
       <p class="mt-4 text-slate-400 text-lg">
-        Try <span class="text-quardian-accent font-semibold">Encrypt</span>, <span class="text-quardian-accent font-semibold">Decrypt</span>,
-        and <span class="text-quardian-accent font-semibold">Verify</span> using Quardian’s Post-Quantum-ready API endpoints.
+        Test <span class="text-quardian-accent font-semibold">Encryption</span>, <span class="text-quardian-accent font-semibold">Decryption</span>,
+        <span class="text-quardian-accent font-semibold">Signing</span>, and <span class="text-quardian-accent font-semibold">Verification</span> — all through live PQC-ready API endpoints.
       </p>
     </div>
   </section>
@@ -84,32 +102,25 @@
   <!-- Tabs -->
   <section class="max-w-3xl mx-auto px-4 mb-28">
     <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-8 shadow-glow">
-      <div class="flex justify-center mb-6">
-        <button id="tabEncrypt" class="tab-btn bg-quardian-accent/20 px-4 py-2 rounded-l-lg font-semibold">Encrypt</button>
-        <button id="tabDecrypt" class="tab-btn bg-quardian-accent/10 px-4 py-2 font-semibold">Decrypt</button>
-        <button id="tabVerify" class="tab-btn bg-quardian-accent/10 px-4 py-2 rounded-r-lg font-semibold">Verify</button>
+      <div class="flex justify-center mb-6 gap-2">
+        <button id="tabEncrypt" class="tab-btn active px-4 py-2 rounded-l-lg font-semibold">Encrypt</button>
+        <button id="tabDecrypt" class="tab-btn px-4 py-2 font-semibold">Decrypt</button>
+        <button id="tabSign" class="tab-btn px-4 py-2 font-semibold">Sign</button>
+        <button id="tabVerify" class="tab-btn px-4 py-2 rounded-r-lg font-semibold">Verify</button>
       </div>
 
-      <!-- Encrypt Form -->
+      <!-- Encrypt -->
       <form id="encryptForm" class="tab-content space-y-6">
-        <div>
-          <label class="block text-sm mb-2 text-slate-400">Select Algorithm</label>
-          <select id="scheme" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:ring-2 focus:ring-quardian-accent">
-            <option value="Kyber">Kyber</option>
-            <option value="Dilithium">Dilithium</option>
-            <option value="Falcon">Falcon</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm mb-2 text-slate-400">Enter Plaintext</label>
-          <textarea id="plaintext" rows="4" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:ring-2 focus:ring-quardian-accent" placeholder="Enter data to encrypt..."></textarea>
-        </div>
-        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
-          Encrypt Data
-        </button>
+        <select id="scheme" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:ring-2 focus:ring-quardian-accent">
+          <option value="Kyber">Kyber</option>
+          <option value="Dilithium">Dilithium</option>
+          <option value="Falcon">Falcon</option>
+        </select>
+        <textarea id="plaintext" rows="4" placeholder="Enter text to encrypt..." class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <button type="submit" class="ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full hover:scale-105 transition">Encrypt Data</button>
       </form>
 
-      <!-- Decrypt Form -->
+      <!-- Decrypt -->
       <form id="decryptForm" class="tab-content hidden space-y-4">
         <textarea id="ciphertext" placeholder="Ciphertext" rows="3" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
         <input id="key" placeholder="Key (Base64)" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3" />
@@ -117,19 +128,21 @@
           <input id="iv" placeholder="IV (Base64)" class="rounded-lg bg-quardian-bg border border-white/10 p-3" />
           <input id="tag" placeholder="Tag (Base64)" class="rounded-lg bg-quardian-bg border border-white/10 p-3" />
         </div>
-        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
-          Decrypt Data
-        </button>
+        <button type="submit" class="ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full hover:scale-105 transition">Decrypt Data</button>
       </form>
 
-      <!-- Verify Form -->
+      <!-- Sign -->
+      <form id="signForm" class="tab-content hidden space-y-4">
+        <textarea id="signMessage" rows="3" placeholder="Enter message to sign..." class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <button type="submit" class="ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full hover:scale-105 transition">Generate Signature</button>
+      </form>
+
+      <!-- Verify -->
       <form id="verifyForm" class="tab-content hidden space-y-4">
-        <textarea id="verifyMessage" placeholder="Message to verify" rows="3" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
+        <textarea id="verifyMessage" rows="3" placeholder="Message to verify" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
         <textarea id="verifyPublicKey" placeholder="Public Key (Base64)" rows="2" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
         <textarea id="verifySignature" placeholder="Signature (Base64)" rows="2" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3"></textarea>
-        <button type="submit" class="relative ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
-          Verify Signature
-        </button>
+        <button type="submit" class="ring-anim inline-flex justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full hover:scale-105 transition">Verify Signature</button>
       </form>
 
       <div id="resultBox" class="mt-8 hidden">
@@ -145,25 +158,28 @@
   </footer>
 
   <script>
+    const API = "https://quardian-backend.onrender.com/api";
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Tabs
     const tabs = {
       Encrypt: document.getElementById("encryptForm"),
       Decrypt: document.getElementById("decryptForm"),
+      Sign: document.getElementById("signForm"),
       Verify: document.getElementById("verifyForm"),
     };
     const buttons = {
       Encrypt: document.getElementById("tabEncrypt"),
       Decrypt: document.getElementById("tabDecrypt"),
+      Sign: document.getElementById("tabSign"),
       Verify: document.getElementById("tabVerify"),
     };
+
     Object.keys(buttons).forEach(k => {
       buttons[k].addEventListener("click", () => {
         Object.values(tabs).forEach(t => t.classList.add("hidden"));
-        Object.values(buttons).forEach(b => b.classList.remove("bg-quardian-accent/20"));
+        Object.values(buttons).forEach(b => b.classList.remove("active"));
         tabs[k].classList.remove("hidden");
-        buttons[k].classList.add("bg-quardian-accent/20");
+        buttons[k].classList.add("active");
         document.getElementById("resultBox").classList.add("hidden");
       });
     });
@@ -187,13 +203,11 @@
       resultOutput.textContent = "Encrypting...";
       resultBox.classList.remove("hidden");
       try {
-        const scheme = document.getElementById("scheme").value;
         const text = document.getElementById("plaintext").value.trim();
-        const data = await postJSON("https://quardian-backend.onrender.com/api/encrypt", { text, algorithm: scheme });
+        const algorithm = document.getElementById("scheme").value;
+        const data = await postJSON(`${API}/encrypt`, { text, algorithm });
         resultOutput.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        resultOutput.textContent = "Error: " + err.message;
-      }
+      } catch (err) { resultOutput.textContent = "Error: " + err.message; }
     });
 
     // Decrypt
@@ -208,11 +222,21 @@
           iv: document.getElementById("iv").value.trim(),
           tag: document.getElementById("tag").value.trim(),
         };
-        const data = await postJSON("https://quardian-backend.onrender.com/api/decrypt", body);
+        const data = await postJSON(`${API}/decrypt`, body);
         resultOutput.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        resultOutput.textContent = "Error: " + err.message;
-      }
+      } catch (err) { resultOutput.textContent = "Error: " + err.message; }
+    });
+
+    // Sign
+    document.getElementById("signForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      resultOutput.textContent = "Signing...";
+      resultBox.classList.remove("hidden");
+      try {
+        const message = document.getElementById("signMessage").value.trim();
+        const data = await postJSON(`${API}/sign`, { message });
+        resultOutput.textContent = JSON.stringify(data, null, 2);
+      } catch (err) { resultOutput.textContent = "Error: " + err.message; }
     });
 
     // Verify
@@ -226,11 +250,9 @@
           publicKey: document.getElementById("verifyPublicKey").value.trim(),
           signature: document.getElementById("verifySignature").value.trim(),
         };
-        const data = await postJSON("https://quardian-backend.onrender.com/api/verify", body);
+        const data = await postJSON(`${API}/verify`, body);
         resultOutput.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        resultOutput.textContent = "Error: " + err.message;
-      }
+      } catch (err) { resultOutput.textContent = "Error: " + err.message; }
     });
   </script>
 </body>
