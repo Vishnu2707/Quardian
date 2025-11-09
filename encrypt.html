@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quardian-Safe API — Encrypt Demo</title>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            quardian: {
+              bg: '#0a0f1a',
+              panel: '#0f1726',
+              neon: '#00e5ff',
+              accent: '#6ee7ff',
+              pulse: '#20f3b4',
+            },
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(124,243,255,0.2), 0 10px 40px rgba(0,229,255,.12)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root { color-scheme: dark; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .ring-anim::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: conic-gradient(from 0deg, rgba(0,229,255,.3), rgba(32,243,180,.35), rgba(0,229,255,.3));
+      filter: blur(12px);
+      z-index: -1;
+      border-radius: 9999px;
+      opacity: .7;
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+
+<body class="bg-quardian-bg text-slate-100 transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <span class="relative inline-grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-quardian-neon/20 to-quardian-pulse/20 ring-1 ring-quardian-neon/40 shadow-glow">
+          <svg width="20" height="20" viewBox="0 0 24 24" class="text-quardian-accent group-hover:drop-shadow-neon transition">
+            <path d="M12 3l8.66 5v8L12 21l-8.66-5V8L12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+        <span class="text-xl font-semibold tracking-tight">Quardian</span>
+      </a>
+      <a href="index.html" class="text-sm text-quardian-accent hover:underline">← Back to Home</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="py-20 md:py-28 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-extrabold">Quardian-Safe API Demo</h1>
+      <p class="mt-4 text-slate-400 text-lg">
+        Experiment with <span class="text-quardian-accent font-semibold">Post-Quantum Encryption</span> using 
+        <strong>Kyber</strong>, <strong>Dilithium</strong>, and <strong>Falcon</strong>.  
+        Enter text below, choose a scheme, and see your ciphertext securely generated.
+      </p>
+    </div>
+  </section>
+
+  <!-- Encryption Form -->
+  <section class="max-w-2xl mx-auto px-4 mb-28">
+    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-8 shadow-glow">
+      <form id="encryptForm" class="space-y-6">
+        <div>
+          <label class="block text-sm mb-2 text-slate-400">Select Encryption Scheme</label>
+          <select id="scheme" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:outline-none focus:ring-2 focus:ring-quardian-accent">
+            <option value="Kyber">Kyber</option>
+            <option value="Dilithium">Dilithium</option>
+            <option value="Falcon">Falcon</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm mb-2 text-slate-400">Enter Plaintext</label>
+          <textarea id="plaintext" rows="4" class="w-full rounded-lg bg-quardian-bg border border-white/10 p-3 focus:outline-none focus:ring-2 focus:ring-quardian-accent" placeholder="Enter your data to encrypt..."></textarea>
+        </div>
+
+        <button type="submit" class="relative ring-anim inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-900 bg-quardian-accent w-full">
+          Encrypt Data
+        </button>
+      </form>
+
+      <div id="resultBox" class="mt-8 hidden">
+        <h3 class="text-lg font-semibold mb-2 text-quardian-accent">Ciphertext Output</h3>
+        <pre id="cipherOutput" class="text-sm text-slate-300 bg-quardian-bg border border-white/10 p-4 rounded-lg overflow-x-auto"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 border-t border-white/10 text-center text-sm text-slate-400">
+    © <span id="year"></span> Quardian — Post-Quantum Secure SaaS Platform
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('encryptForm');
+    const resultBox = document.getElementById('resultBox');
+    const cipherOutput = document.getElementById('cipherOutput');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const scheme = document.getElementById('scheme').value;
+      const data = document.getElementById('plaintext').value.trim();
+
+      if (!data) {
+        alert("Please enter text to encrypt.");
+        return;
+      }
+
+      try {
+        const res = await fetch('https://your-render-backend-url.onrender.com/api/encrypt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ scheme, data })
+        });
+
+        const result = await res.json();
+        cipherOutput.textContent = JSON.stringify(result.result, null, 2);
+        resultBox.classList.remove('hidden');
+      } catch (err) {
+        cipherOutput.textContent = '⚠️ Backend not reachable. Showing demo output.\n\n' + 
+                                   JSON.stringify({ scheme, ciphertext: btoa(data) }, null, 2);
+        resultBox.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
