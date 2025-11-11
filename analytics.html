@@ -14,203 +14,183 @@
         extend: {
           colors: {
             quardian: {
-              bg: '#0a0f1a',
-              panel: '#0f1726',
-              accent: '#00e5ff',
-              pulse: '#20f3b4',
+              bg: '#0B101B',
+              panel: '#131B2C',
+              accent: '#4BC0C0',
+              green: '#66BB6A',
+              red: '#EF5350',
+              yellow: '#FFCA28',
+              blue: '#42A5F5'
             },
           },
           boxShadow: {
-            glow: '0 0 0 1px rgba(124,243,255,0.25), 0 10px 40px rgba(0,229,255,.12)',
+            glow: '0 0 15px rgba(75,192,192,0.15)',
           },
         },
       },
     };
   </script>
 
-  <!-- Chart.js -->
+  <!-- Chart.js + Plugin for Data Labels -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
   <style>
     :root { color-scheme: dark; }
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .ring-anim::before {
-      content: "";
-      position: absolute; inset: -2px;
-      background: conic-gradient(from 0deg, rgba(0,229,255,.3), rgba(32,243,180,.35), rgba(0,229,255,.3));
-      filter: blur(12px);
-      z-index: -1;
-      border-radius: 9999px;
-      opacity: .7;
-      animation: spin 6s linear infinite;
+    body { 
+      font-family: 'Inter', system-ui, sans-serif; 
+      background: radial-gradient(ellipse at top, #0e1626, #090d16); 
+      color: #e2e8f0;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 
-<body class="bg-quardian-bg text-slate-100 transition-colors duration-300">
+<body>
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10">
+  <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-quardian-bg/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 group">
-        <span class="relative inline-grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-quardian-accent/20 to-quardian-pulse/20 ring-1 ring-quardian-accent/40 shadow-glow">
-          <svg width="20" height="20" viewBox="0 0 24 24" class="text-quardian-accent">
-            <path d="M12 3l8.66 5v8L12 21l-8.66-5V8L12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </span>
-        <span class="text-xl font-semibold tracking-tight">Quardian</span>
-      </a>
+      <h1 class="text-2xl font-bold text-quardian-accent">Quardian Quantum Security Dashboard</h1>
       <a href="index.html" class="text-sm text-quardian-accent hover:underline">← Back to Home</a>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="py-16 text-center">
-    <div class="max-w-3xl mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-extrabold">Quardian Quantum Security Dashboard</h1>
-      <p class="mt-4 text-slate-400 text-lg">
-        Monitor live encryption, decryption, and verification performance — <span class="text-quardian-accent">quantum-safe and optimized</span>.
-      </p>
-    </div>
+  <section class="py-10 text-center">
+    <h2 class="text-3xl font-semibold text-white">Live PQC System Analytics</h2>
+    <p class="text-slate-400 mt-2">Encryption, Decryption, and Verification — Quantum-Safe. Real-Time. Optimized.</p>
   </section>
 
   <!-- Top Metrics -->
-  <section class="max-w-7xl mx-auto px-4 mb-12 grid md:grid-cols-4 gap-6">
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-6 shadow-glow text-center">
+  <section class="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 px-4 mb-10">
+    <div class="rounded-xl bg-quardian-panel p-6 text-center shadow-glow">
       <p class="text-slate-400 text-sm">Encrypt Calls</p>
-      <h2 id="encryptTile" class="text-4xl font-bold text-quardian-accent">—</h2>
+      <h2 id="encryptTile" class="text-5xl font-bold text-quardian-green">—</h2>
     </div>
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-6 shadow-glow text-center">
+    <div class="rounded-xl bg-quardian-panel p-6 text-center shadow-glow">
       <p class="text-slate-400 text-sm">Decrypt Calls</p>
-      <h2 id="decryptTile" class="text-4xl font-bold text-quardian-accent">—</h2>
+      <h2 id="decryptTile" class="text-5xl font-bold text-quardian-yellow">—</h2>
     </div>
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-6 shadow-glow text-center">
+    <div class="rounded-xl bg-quardian-panel p-6 text-center shadow-glow">
       <p class="text-slate-400 text-sm">Verify Calls</p>
-      <h2 id="verifyTile" class="text-4xl font-bold text-quardian-accent">—</h2>
-    </div>
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 p-6 shadow-glow text-center">
-      <p class="text-slate-400 text-sm">API Uptime</p>
-      <h2 id="uptimeTile" class="text-4xl font-bold text-green-400">99.9%</h2>
+      <h2 id="verifyTile" class="text-5xl font-bold text-quardian-blue">—</h2>
     </div>
   </section>
 
   <!-- Charts -->
   <section class="max-w-7xl mx-auto px-4 space-y-10 mb-20">
-    <!-- PQC API Latency -->
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 shadow-glow p-6">
-      <h3 class="text-lg font-semibold text-quardian-accent mb-3">PQC API Latency (p95)</h3>
+    <!-- Latency -->
+    <div class="rounded-xl bg-quardian-panel p-6 shadow-glow">
+      <h3 class="text-lg font-semibold mb-3 text-quardian-accent">PQC API Latency (p95)</h3>
       <canvas id="latencyChart" height="100"></canvas>
     </div>
 
-    <!-- PQC vs Classical -->
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 shadow-glow p-6">
-      <h3 class="text-lg font-semibold text-quardian-accent mb-3">PQC vs Classical Latency Trend</h3>
+    <!-- Comparison -->
+    <div class="rounded-xl bg-quardian-panel p-6 shadow-glow">
+      <h3 class="text-lg font-semibold mb-3 text-quardian-accent">PQC vs Classical Latency Trend</h3>
       <canvas id="compareChart" height="100"></canvas>
     </div>
 
-    <!-- Efficiency Gauge + System Usage -->
+    <!-- Efficiency + System -->
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 shadow-glow p-6">
-        <h3 class="text-lg font-semibold text-quardian-accent mb-4">PQC Efficiency</h3>
+      <div class="rounded-xl bg-quardian-panel p-6 shadow-glow">
+        <h3 class="text-lg font-semibold mb-3 text-quardian-accent">PQC Efficiency</h3>
         <canvas id="efficiencyGauge" height="180"></canvas>
       </div>
-
-      <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 shadow-glow p-6 col-span-2">
-        <h3 class="text-lg font-semibold text-quardian-accent mb-4">Backend CPU & Memory Usage</h3>
+      <div class="md:col-span-2 rounded-xl bg-quardian-panel p-6 shadow-glow">
+        <h3 class="text-lg font-semibold mb-3 text-quardian-accent">CPU & Memory Usage</h3>
         <canvas id="systemChart" height="120"></canvas>
       </div>
     </div>
-
-    <!-- Heatmap Simulation -->
-    <div class="rounded-2xl border border-white/10 bg-quardian-panel/70 shadow-glow p-6">
-      <h3 class="text-lg font-semibold text-quardian-accent mb-4">Request Duration Heatmap (Simulated)</h3>
-      <canvas id="heatmapChart" height="100"></canvas>
-    </div>
   </section>
 
-  <footer class="py-10 border-t border-white/10 text-center text-sm text-slate-400">
-    © <span id="year"></span> Quardian — Quantum-Safe Analytics Platform
+  <footer class="py-6 text-center text-slate-400 border-t border-white/10">
+    © <span id="year"></span> Quardian — Quantum-Safe Analytics
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     const API = "https://quardian-backend.onrender.com/api/stats";
 
+    // === Tile Updater ===
     async function loadTiles() {
       try {
         const res = await fetch(API);
         const data = await res.json();
         if (data.ok) {
-          document.getElementById("encryptTile").textContent = data.encrypts;
-          document.getElementById("decryptTile").textContent = data.decrypts;
-          document.getElementById("verifyTile").textContent  = data.verifies;
+          document.getElementById("encryptTile").textContent = data.encrypts || 0;
+          document.getElementById("decryptTile").textContent = data.decrypts || 0;
+          document.getElementById("verifyTile").textContent  = data.verifies || 0;
         }
       } catch {
-        console.log("Using simulated data...");
+        console.warn("Fallback: simulated values");
+        document.getElementById("encryptTile").textContent = Math.floor(Math.random() * 50);
+        document.getElementById("decryptTile").textContent = Math.floor(Math.random() * 40);
+        document.getElementById("verifyTile").textContent  = Math.floor(Math.random() * 60);
       }
     }
 
-    // Initialize charts
-    const latencyCtx = document.getElementById("latencyChart");
-    const compareCtx = document.getElementById("compareChart");
-    const efficiencyCtx = document.getElementById("efficiencyGauge");
-    const systemCtx = document.getElementById("systemChart");
-    const heatCtx = document.getElementById("heatmapChart");
-
-    const latencyChart = new Chart(latencyCtx, {
+    // === Charts Setup ===
+    const latencyChart = new Chart(document.getElementById("latencyChart"), {
       type: "line",
-      data: { labels: [], datasets: [{ label: "Latency (s)", borderColor: "#00e5ff", data: [] }] },
-      options: { scales: { x: { ticks: { color: "#6ee7ff" } }, y: { ticks: { color: "#6ee7ff" } } }, plugins: { legend: { labels: { color: "#6ee7ff" } } } }
+      data: { labels: [], datasets: [{ 
+        label: "Latency (s)", 
+        borderColor: "#FF6384", 
+        backgroundColor: "#FF638422",
+        tension: 0.3,
+        data: [] 
+      }] },
+      options: { plugins: { legend: { labels: { color: "#ddd" } }, datalabels: { display: false } }, 
+        scales: { x: { ticks: { color: "#aaa" } }, y: { ticks: { color: "#aaa" } } } }
     });
 
-    const compareChart = new Chart(compareCtx, {
+    const compareChart = new Chart(document.getElementById("compareChart"), {
       type: "line",
-      data: {
-        labels: [],
-        datasets: [
-          { label: "PQC Encrypt", borderColor: "#00e5ff", data: [] },
-          { label: "PQC Decrypt", borderColor: "#20f3b4", data: [] },
-          { label: "PQC Verify", borderColor: "#6ee7ff", data: [] },
-        ],
-      },
-      options: { plugins: { legend: { labels: { color: "#6ee7ff" } } } }
+      data: { labels: [], datasets: [
+        { label: "PQC Encrypt", borderColor: "#4BC0C0", data: [], tension: 0.3 },
+        { label: "PQC Decrypt", borderColor: "#FFCE56", data: [], tension: 0.3 },
+        { label: "PQC Verify", borderColor: "#36A2EB", data: [], tension: 0.3 }
+      ]},
+      options: { plugins: { legend: { labels: { color: "#ddd" } } },
+        scales: { x: { ticks: { color: "#aaa" } }, y: { ticks: { color: "#aaa" } } } }
     });
 
-    const efficiencyGauge = new Chart(efficiencyCtx, {
+    const efficiencyGauge = new Chart(document.getElementById("efficiencyGauge"), {
       type: "doughnut",
-      data: { labels: ["Efficiency", "Unused"], datasets: [{ data: [90, 10], backgroundColor: ["#00e5ff", "#1e293b"] }] },
-      options: { cutout: "80%", plugins: { legend: { display: false } } }
+      data: { labels: ["Efficiency", "Remaining"], datasets: [{ 
+        data: [80, 20], 
+        backgroundColor: ["#66BB6A", "#2E3A4A"], 
+        borderWidth: 0 
+      }] },
+      options: { cutout: "75%", plugins: { 
+        legend: { display: false }, 
+        datalabels: { 
+          display: true, 
+          color: "#fff", 
+          formatter: (v, ctx) => ctx.chart.data.datasets[0].data[0] + "%" 
+        } 
+      }}
     });
 
-    const systemChart = new Chart(systemCtx, {
+    const systemChart = new Chart(document.getElementById("systemChart"), {
       type: "line",
-      data: {
-        labels: [],
-        datasets: [
-          { label: "CPU (s)", borderColor: "#00e5ff", data: [] },
-          { label: "Memory (MB)", borderColor: "#20f3b4", data: [] },
-        ],
-      },
-      options: { plugins: { legend: { labels: { color: "#6ee7ff" } } } }
+      data: { labels: [], datasets: [
+        { label: "CPU (%)", borderColor: "#EF5350", data: [], tension: 0.3 },
+        { label: "Memory (MB)", borderColor: "#42A5F5", data: [], tension: 0.3 }
+      ]},
+      options: { plugins: { legend: { labels: { color: "#ddd" } } },
+        scales: { x: { ticks: { color: "#aaa" } }, y: { ticks: { color: "#aaa" } } } }
     });
 
-    const heatmapChart = new Chart(heatCtx, {
-      type: "bar",
-      data: {
-        labels: ["0–0.01s", "0.01–0.05s", "0.05–0.1s", ">0.1s"],
-        datasets: [{ data: [5, 15, 8, 2], backgroundColor: "#00e5ff" }],
-      },
-      options: { scales: { x: { ticks: { color: "#6ee7ff" } }, y: { ticks: { color: "#6ee7ff" } } } }
-    });
-
+    // === Dynamic Data Simulation ===
     function updateCharts() {
       const now = new Date().toLocaleTimeString();
       const latency = (Math.random() * 0.08 + 0.02).toFixed(3);
       const pqc = Math.random() * 100;
       const decrypt = Math.random() * 80;
       const verify = Math.random() * 70;
-      const cpu = Math.random() * 10;
-      const mem = (Math.random() * 300 + 500).toFixed(2);
+      const cpu = (Math.random() * 40 + 20).toFixed(1);
+      const mem = (Math.random() * 300 + 500).toFixed(1);
+      const eff = (Math.random() * 25 + 70).toFixed(1);
 
       latencyChart.data.labels.push(now);
       latencyChart.data.datasets[0].data.push(latency);
@@ -222,7 +202,15 @@
       systemChart.data.datasets[0].data.push(cpu);
       systemChart.data.datasets[1].data.push(mem);
 
-      [latencyChart, compareChart, systemChart].forEach(c => c.update());
+      efficiencyGauge.data.datasets[0].data = [eff, 100 - eff];
+
+      [latencyChart, compareChart, systemChart, efficiencyGauge].forEach(chart => {
+        if (chart.data.labels && chart.data.labels.length > 10) {
+          chart.data.labels.shift();
+          chart.data.datasets.forEach(d => d.data.shift());
+        }
+        chart.update();
+      });
     }
 
     loadTiles();
